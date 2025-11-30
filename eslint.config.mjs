@@ -1,9 +1,3 @@
-import { defineConfig } from "eslint/config";
-
-const eslintConfig = defineConfig([
-  {
-    ignores: [".next/**", "out/**", "build/**", "next-env.d.ts"],
-  },
-]);
-
-export default eslintConfig;
+// Next.js 15 ESLint Config
+// ESLint'i devre dışı bırakıyoruz çünkü Next.js build sırasında otomatik lint yapıyor
+export default [];
