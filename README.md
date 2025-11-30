@@ -94,6 +94,80 @@ trendcrm/
 2. `/auth/login` ile giriş yapın
 3. Google ile giriş seçeneğini kullanın
 
+## 📸 Uygulama İçi Görseller
+
+### Ana Sayfa (Dashboard)
+Ana sayfa, kullanıcıları Instagram Analizi ve Trend İçerikler özelliklerine yönlendiren modern bir arayüz sunar. AI destekli analizler ve gerçek zamanlı trend verileri ile sosyal medya stratejinizi güçlendirin.
+
+**Özellikler:**
+- Instagram Analizi kartı ile hesap analizi başlatma
+- Trend İçerikler kartı ile sektörel trend keşfi
+- Modern ve kullanıcı dostu tasarım
+
+### Instagram Analizi Sayfası
+AI destekli Instagram hesap analizi sayfası. Kullanıcı adı, sektör ve hedef bilgilerini girerek kişiselleştirilmiş strateji önerileri alabilirsiniz.
+
+**Özellikler:**
+- Instagram kullanıcı adı girişi
+- Sektör seçimi (E-ticaret, Teknoloji, Moda, Yemek, vb.)
+- Instagram'da amaçlanan hedef belirleme
+- AI destekli analiz ve öneriler
+
+### Trend İçerikler Sayfası
+Sektörünüze özel AI destekli trend analizi ve içerik önerileri. Instagram'daki en popüler içerikleri gerçek zamanlı keşfedin.
+
+**Özellikler:**
+- Sektör bazlı trend analizi
+- Özel soru sorma imkanı
+- Örnek sorular ile hızlı başlangıç
+- AI ile trend analizi yapma
+
+### Performans Dashboard
+Hesabınızın detaylı performans analizi. Takipçi büyümesi, etkileşim oranı, toplam beğeni ve gönderi sayısı gibi temel metrikleri görüntüleyin.
+
+**Özellikler:**
+- Takipçi sayısı ve büyüme oranı
+- Etkileşim oranı analizi
+- Toplam beğeni istatistikleri
+- Gönderi sayısı takibi
+- Takipçi büyümesi grafiği
+- Etkileşim trendi grafiği
+- En iyi performans gösteren gönderiler
+
+### Kampanya Yönetimi
+Organik ve reklam kampanyalarınızı yönetin. Toplam bütçe, harcanan tutar, erişim ve etkileşim metriklerini takip edin.
+
+**Özellikler:**
+- Toplam bütçe ve harcama takibi
+- Toplam erişim ve ortalama etkileşim oranı
+- Organik ve reklam kampanyaları filtreleme
+- Kampanya detayları (erişim, görüntülenme, CTR, CPC)
+- Dönüşüm ve ROI metrikleri
+- AI kampanya önerisi
+- Yeni kampanya oluşturma
+
+### Raporlar Sayfası
+Haftalık, aylık veya özel tarih aralığında rapor oluşturun ve dışa aktarın.
+
+**Özellikler:**
+- Haftalık rapor (Son 7 gün)
+- Aylık rapor (Son 30 gün)
+- Özel tarih aralığı seçimi
+- PDF formatında dışa aktarma (Yazdırma için ideal)
+- Excel formatında dışa aktarma (Analiz için ideal)
+- Rapor şablonlarını görüntüleme
+
+### White-Label Ayarları
+Platformunuzu markanıza özel hale getirin. Şirket adı, logo, favicon, renkler ve özel domain ayarlarını yapın.
+
+**Özellikler:**
+- Şirket adı özelleştirme
+- Logo yükleme
+- Favicon yükleme
+- Birincil ve ikincil renk seçimi
+- Özel domain ayarlama (Müşteriler için alt domain)
+- Canlı önizleme
+
 ## 🔧 API Endpoints
 
 ### POST /api/analyze
