@@ -1,0 +1,68 @@
+{
+  "name": "Trend Content Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "trendcrm-trends",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trends",
+      "name": "Trend Content Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "trendcrm-trends"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Trend içerik verilerini oluştur\nconst category = $input.first().json.category || 'Tümü';\n\n// Mock trend verileri (gerçek API entegrasyonu için değiştirin)\nconst trends = [\n  {\n    id: '1',\n    title: 'En Popüler Dans Trendi 2024',\n    description: 'Bu hafta en çok izlenen dans videosu. Yaratıcı hareketler ve mükemmel koreografi.',\n    category: 'Dans',\n    views: 2500000,\n    likes: 150000,\n    shares: 45000,\n    thumbnail_url: 'https://via.placeholder.com/400x225/4F46E5/FFFFFF?text=Dance+Trend',\n    video_url: 'https://example.com/video1',\n    creator: 'dancemaster',\n    created_at: new Date().toISOString(),\n    tags: ['dans', 'trend', 'koreografi', 'müzik']\n  },\n  {\n    id: '2',\n    title: 'Yemek Tarifi: Viral Pasta',\n    description: 'Sosyal medyada patlayan pasta tarifi. Kolay ve lezzetli!',\n    category: 'Yemek',\n    views: 1800000,\n    likes: 120000,\n    shares: 35000,\n    thumbnail_url: 'https://via.placeholder.com/400x225/10B981/FFFFFF?text=Food+Trend',\n    video_url: 'https://example.com/video2',\n    creator: 'chefmaster',\n    created_at: new Date(Date.now() - 86400000).toISOString(),\n    tags: ['yemek', 'tarif', 'pasta', 'tatlı']\n  },\n  {\n    id: '3',\n    title: 'Teknoloji Haberleri',\n    description: 'Bu haftanın en önemli teknoloji gelişmeleri ve yeni ürün tanıtımları.',\n    category: 'Teknoloji',\n    views: 3200000,\n    likes: 200000,\n    shares: 60000,\n    thumbnail_url: 'https://via.placeholder.com/400x225/EF4444/FFFFFF?text=Tech+News',\n    video_url: 'https://example.com/video3',\n    creator: 'techguru',\n    created_at: new Date(Date.now() - 172800000).toISOString(),\n    tags: ['teknoloji', 'haber', 'gelişme', 'ürün']\n  },\n  {\n    id: '4',\n    title: 'Moda Trendleri',\n    description: 'Bu sezonun en popüler moda trendleri ve stil önerileri.',\n    category: 'Moda',\n    views: 1500000,\n    likes: 95000,\n    shares: 28000,\n    thumbnail_url: 'https://via.placeholder.com/400x225/EC4899/FFFFFF?text=Fashion+Trend',\n    video_url: 'https://example.com/video4',\n    creator: 'fashionista',\n    created_at: new Date(Date.now() - 259200000).toISOString(),\n    tags: ['moda', 'stil', 'trend', 'giyim']\n  },\n  {\n    id: '5',\n    title: 'Spor ve Fitness',\n    description: 'Evde yapabileceğiniz etkili egzersizler ve fitness ipuçları.',\n    category: 'Spor',\n    views: 2200000,\n    likes: 180000,\n    shares: 52000,\n    thumbnail_url: 'https://via.placeholder.com/400x225/F59E0B/FFFFFF?text=Sports+Trend',\n    video_url: 'https://example.com/video5',\n    creator: 'fitnesscoach',\n    created_at: new Date(Date.now() - 345600000).toISOString(),\n    tags: ['spor', 'fitness', 'egzersiz', 'sağlık']\n  }\n];\n\n// Kategori filtresi uygula\nconst filteredTrends = category === 'Tümü' \n  ? trends \n  : trends.filter(trend => trend.category === category);\n\nreturn { json: filteredTrends };"
+      },
+      "id": "generate-trends",
+      "name": "Generate Trend Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "response",
+      "name": "Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Trend Content Webhook": {
+      "main": [
+        [
+          {
+            "node": "Generate Trend Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Trend Data": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "1"
+}
+

@@ -1,0 +1,94 @@
+{
+  "name": "Instagram Analysis Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "trendcrm-analyze",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-analyze",
+      "name": "Instagram Analysis Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "trendcrm-analyze"
+    },
+    {
+      "parameters": {
+        "url": "https://graph.instagram.com/{{ $json.username }}",
+        "options": {
+          "headers": {
+            "Authorization": "Bearer YOUR_INSTAGRAM_ACCESS_TOKEN"
+          }
+        }
+      },
+      "id": "instagram-api",
+      "name": "Instagram API Call",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Instagram verilerini işle ve analiz et\nconst data = $input.first().json;\n\n// Mock analiz verisi (gerçek API entegrasyonu için değiştirin)\nconst analysis = {\n  username: data.username,\n  followers: Math.floor(Math.random() * 100000) + 1000,\n  engagement: (Math.random() * 5 + 1).toFixed(1) + '%',\n  recommendation: 'Bu hesap için öneriler: Daha fazla video içerik paylaşın, hashtag kullanımını artırın, etkileşim oranınızı yükseltmek için sorular sorun.',\n  profile_pic: 'https://via.placeholder.com/150/4F46E5/FFFFFF?text=' + data.username.charAt(0).toUpperCase(),\n  bio: 'Instagram hesap açıklaması burada görünecek',\n  posts_count: Math.floor(Math.random() * 500) + 50,\n  following: Math.floor(Math.random() * 1000) + 100,\n  verified: Math.random() > 0.7\n};\n\nreturn { json: analysis };"
+      },
+      "id": "process-data",
+      "name": "Process Instagram Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "response",
+      "name": "Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Instagram Analysis Webhook": {
+      "main": [
+        [
+          {
+            "node": "Instagram API Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram API Call": {
+      "main": [
+        [
+          {
+            "node": "Process Instagram Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Instagram Data": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "1"
+}
+

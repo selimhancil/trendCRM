@@ -1,0 +1,176 @@
+{
+  "name": "Instagram Content Planning Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "trendcrm-planning-connect",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-connect",
+      "name": "Connect Instagram Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "trendcrm-planning-connect"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Instagram hesap bağlama işlemini işle\nconst data = $input.first().json;\n\n// Instagram access token'ı al ve sakla\nconst connectionData = {\n  action: data.action,\n  access_token: data.access_token,\n  user_id: data.user_id,\n  timestamp: data.timestamp,\n  username: 'connected_account', // Instagram API'den alınacak\n  connected: true\n};\n\n// Veritabanına kaydet veya cache'e al\nreturn { json: connectionData };"
+      },
+      "id": "process-connection",
+      "name": "Process Connection",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "response-connect",
+      "name": "Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "trendcrm-planning-schedule",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-schedule",
+      "name": "Schedule Post Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 600],
+      "webhookId": "trendcrm-planning-schedule"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Planlanmış içeriği işle ve zamanlayıcıya ekle\nconst post = $input.first().json.post;\n\n// İçeriği formata hazırla\nconst scheduledPost = {\n  id: post.id,\n  account: post.account,\n  content: post.content,\n  scheduled_time: post.scheduled_time,\n  hashtags: post.hashtags,\n  post_type: post.post_type,\n  media_url: post.media_url,\n  status: 'scheduled'\n};\n\n// Zamanlayıcı için tarih hesapla\nconst scheduledDate = new Date(post.scheduled_time);\nconst now = new Date();\nconst delayInMs = scheduledDate.getTime() - now.getTime();\n\nreturn {\n  json: {\n    post: scheduledPost,\n    delay_ms: delayInMs > 0 ? delayInMs : 0\n  }\n};"
+      },
+      "id": "process-schedule",
+      "name": "Process Schedule",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [460, 600]
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "seconds"
+      },
+      "id": "wait",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [680, 600]
+    },
+    {
+      "parameters": {
+        "url": "https://graph.instagram.com/me/media",
+        "options": {
+          "headers": {
+            "Authorization": "Bearer {{ $json.post.access_token }}"
+          }
+        }
+      },
+      "id": "instagram-api",
+      "name": "Instagram API Publish",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [900, 600]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "response-schedule",
+      "name": "Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 600]
+    }
+  ],
+  "connections": {
+    "Connect Instagram Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Connection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Connection": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Post Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Schedule": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Instagram API Publish",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram API Publish": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "1"
+}
+
+
+
+
