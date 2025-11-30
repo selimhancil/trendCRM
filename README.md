@@ -73,7 +73,7 @@ trendcrm/
    ```
 
 7. **Tarayıcıda açın**
-   [http://localhost:3000](http://localhost:3000)
+   https://trend-crm.vercel.app/
 
 ## 📱 Kullanım
 
@@ -95,6 +95,15 @@ trendcrm/
 3. Google ile giriş seçeneğini kullanın
 
 ## 📸 Uygulama İçi Görseller
+<img width="1680" height="986" alt="Ekran Resmi 2025-11-30 19 49 20" src="https://github.com/user-attachments/assets/bc446367-5d5c-44a4-827b-3de72a1847de" />
+<img width="1680" height="986" alt="Ekran Resmi 2025-11-30 19 49 13" src="https://github.com/user-attachments/assets/a38334fd-f85c-4f9b-9380-0d8a4d1d889f" />
+<img width="1680" height="986" alt="Ekran Resmi 2025-11-30 19 49 05" src="https://github.com/user-attachments/assets/e268585b-ee91-4fec-bcc7-63d970be81a6" />
+<img width="1680" height="986" alt="Ekran Resmi 2025-11-30 19 49 57" src="https://github.com/user-attachments/assets/efad7490-2d2a-4e52-9558-7eef1424dcf9" />
+<img width="1680" height="986" alt="Ekran Resmi 2025-11-30 19 49 45" src="https://github.com/user-attachments/assets/04fbb83f-a81f-438b-941b-edad5ef08afd" />
+<img width="1680" height="986" alt="Ekran Resmi 2025-11-30 19 49 36" src="https://github.com/user-attachments/assets/7d8881ba-720e-4342-8ddf-2d62c08670a8" />
+<img width="1680" height="986" alt="Ekran Resmi 2025-11-30 19 49 26" src="https://github.com/user-attachments/assets/2100fcb9-3b04-4cce-9fbb-fea13081a0d6" />
+
+
 
 ### Ana Sayfa (Dashboard)
 Ana sayfa, kullanıcıları Instagram Analizi ve Trend İçerikler özelliklerine yönlendiren modern bir arayüz sunar. AI destekli analizler ve gerçek zamanlı trend verileri ile sosyal medya stratejinizi güçlendirin.
@@ -266,7 +275,7 @@ MIT License
 
 Herhangi bir sorun yaşarsanız:
 - GitHub Issues açın
-- E-posta gönderin: support@trendcrm.com
+- E-posta gönderin: selimhancil@gmail.com
 
 ---
 
