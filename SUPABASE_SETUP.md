@@ -226,3 +226,4 @@ npm run dev
 
 **🎉 Tebrikler! Supabase kurulumu tamamlandı!**
 
+

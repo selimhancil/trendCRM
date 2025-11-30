@@ -61,3 +61,4 @@ echo "3. npm run dev ile projeyi başlatın"
 echo ""
 echo "📚 Detaylı rehber için SUPABASE_SETUP.md dosyasına bakın."
 
+
