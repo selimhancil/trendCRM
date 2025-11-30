@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { aiService, getAITrends } from "@/lib/aiService";
-import { n8nClient } from "@/lib/n8nClient";
 
 export async function POST(request: Request) {
   try {
@@ -13,17 +12,20 @@ export async function POST(request: Request) {
       );
     }
 
-    // Önce n8n'den trend verisi almayı dene
-    const n8nResponse = await n8nClient.getTrendingContent(sector);
+    // n8n'den trend verisi almak için aiAgent kullanılabilir
+    // Şimdilik direkt AI servisini kullanıyoruz
+    let n8nResponse: { success: boolean; data: any } = { success: false, data: null };
     
-    let trends = [];
+    let trends: any[] = [];
     let aiRecommendation = "";
 
     // n8n'den veri geldiyse kullan
     if (n8nResponse.success && n8nResponse.data) {
-      trends = Array.isArray(n8nResponse.data) 
-        ? n8nResponse.data 
-        : n8nResponse.data.trends || [];
+      if (Array.isArray(n8nResponse.data)) {
+        trends = n8nResponse.data;
+      } else if (n8nResponse.data && typeof n8nResponse.data === 'object' && 'trends' in n8nResponse.data) {
+        trends = n8nResponse.data.trends || [];
+      }
     }
 
     // AI analizi yap (n8n verisi olsa da, AI önerisi ekle)

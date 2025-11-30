@@ -107,17 +107,18 @@ export async function POST(request: Request) {
 
     // n8n ile gerçek veri çekme (varsa)
     try {
-      const n8nResponse = await n8nClient.analyzeInstagram(cleanUsername, "", "");
-      if (n8nResponse.success && n8nResponse.data) {
+      const { fetchInstagramAnalysis } = await import("@/lib/apiClient");
+      const n8nData = await fetchInstagramAnalysis(cleanUsername);
+      if (n8nData) {
         // n8n'den gelen verileri birleştir
-        if (n8nResponse.data.username) {
-          companyData.instagram.username = n8nResponse.data.username;
+        if (n8nData.username) {
+          companyData.instagram.username = n8nData.username;
         }
-        if (n8nResponse.data.followers) {
-          companyData.instagram.followers = n8nResponse.data.followers;
+        if (n8nData.followers) {
+          companyData.instagram.followers = n8nData.followers;
         }
-        if (n8nResponse.data.posts_count) {
-          companyData.instagram.posts = n8nResponse.data.posts_count;
+        if (n8nData.posts_count) {
+          companyData.instagram.posts = n8nData.posts_count;
         }
       }
     } catch (n8nError) {

@@ -1,32 +1,61 @@
 /**
  * API Client - Backward Compatibility
  * Eski API çağrıları için uyumluluk katmanı
+ * 
+ * NOTE: Bu metodlar artık kullanılmıyor.
+ * Yeni kod için aiAgent veya aiService kullanın.
  */
 
-import { n8nClient } from "./n8nClient";
+import { aiService } from "./aiService";
+import { aiAgent, formatPrompt } from "./aiAgent";
 
 /**
  * Instagram analiz verisi çek (Backward compatibility)
+ * @deprecated Use aiAgent or aiService instead
  */
 export async function fetchInstagramAnalysis(
   username: string,
   sector?: string,
   goal?: string
 ) {
-  const response = await n8nClient.analyzeInstagram(username, sector, goal);
-  if (!response.success) {
-    throw new Error(response.error || "Failed to fetch analysis");
+  try {
+    // AI Agent kullanarak analiz yap
+    const { prompt, context } = formatPrompt("analyze_instagram_account", {
+      username,
+      sector,
+      goal,
+    });
+    
+    const response = await aiAgent.call({
+      prompt,
+      context,
+      task: "analyze_instagram_account",
+    });
+    
+    if (!response.success) {
+      throw new Error(response.error || "Failed to fetch analysis");
+    }
+    return response.data;
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : "Failed to fetch analysis");
   }
-  return response.data;
 }
 
 /**
  * Trend içerik verisi çek (Backward compatibility)
+ * @deprecated Use getAITrends from aiService instead
  */
 export async function fetchTrendingContent(category?: string) {
-  const response = await n8nClient.getTrendingContent(category);
-  if (!response.success) {
-    throw new Error(response.error || "Failed to fetch trends");
+  try {
+    // AI Service kullanarak trend verisi al
+    const { getAITrends } = await import("./aiService");
+    const result = await getAITrends({
+      sector: category,
+      question: category ? `${category} sektörü için trendler` : "Güncel trendler",
+    });
+    
+    return result.trends || [];
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : "Failed to fetch trends");
   }
-  return response.data;
 }

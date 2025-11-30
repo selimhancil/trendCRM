@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { aiService } from "@/lib/aiService";
-import { n8nClient } from "@/lib/n8nClient";
+import { fetchInstagramAnalysis } from "@/lib/apiClient";
 
 export async function POST(request: Request) {
   try {
@@ -29,10 +29,11 @@ export async function POST(request: Request) {
 
     // Önce n8n'den Instagram verisi almayı dene
     let instagramData = null;
-    const n8nResponse = await n8nClient.analyzeInstagram(username, sector, goal);
-    
-    if (n8nResponse.success && n8nResponse.data) {
-      instagramData = n8nResponse.data;
+    try {
+      instagramData = await fetchInstagramAnalysis(username, sector, goal);
+    } catch (error) {
+      // n8n'den veri gelmezse devam et, mock data kullanılacak
+      console.log("n8n analysis not available, using fallback");
     }
 
     // n8n'den veri gelmediyse mock data kullan

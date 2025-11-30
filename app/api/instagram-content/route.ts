@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { n8nClient } from "@/lib/n8nClient";
 
 interface InstagramPost {
   id: string;
@@ -27,31 +26,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Önce n8n'den Instagram içerik verisi almayı dene
+    // n8n'den Instagram içerik verisi almak için aiAgent kullanılabilir
+    // Şimdilik mock data kullanıyoruz
     let instagramData: InstagramPost[] = [];
-    const n8nResponse = await n8nClient.getInstagramContent(sector);
-    
-    if (n8nResponse.success && n8nResponse.data) {
-      // n8n'den gelen veriyi formatla
-      const posts = Array.isArray(n8nResponse.data) 
-        ? n8nResponse.data 
-        : n8nResponse.data.posts || [];
-      
-      instagramData = posts.map((post: any) => ({
-        id: post.id || `post_${Date.now()}_${Math.random()}`,
-        type: post.type || "post",
-        media_url: post.media_url || post.thumbnail_url || "",
-        thumbnail_url: post.thumbnail_url || post.media_url,
-        permalink: post.permalink || "#",
-        caption: post.caption || "",
-        username: post.username || "unknown",
-        likes_count: post.likes_count || 0,
-        comments_count: post.comments_count || 0,
-        views_count: post.views_count,
-        timestamp: post.timestamp || post.created_at || new Date().toISOString(),
-        hashtags: post.hashtags || [],
-      }));
-    }
 
     // Mock data - Gerçek Instagram API entegrasyonu için değiştirilebilir
     const mockPosts: InstagramPost[] = [
@@ -139,7 +116,7 @@ export async function POST(request: Request) {
       }
     ];
 
-    // n8n'den veri gelmediyse mock data kullan
+    // Mock data kullan (n8n entegrasyonu için aiAgent kullanılabilir)
     let posts: InstagramPost[] = instagramData.length > 0 ? instagramData : mockPosts;
 
     // Sektör bazlı filtreleme ve sıralama
